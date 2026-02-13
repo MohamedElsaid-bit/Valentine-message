@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Will you be my Valentine?</title>
 
-  <!-- Confetti library -->
+  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
       --bg1: #ffd6e7;
       --bg2: #ffeef6;
-      --card: rgba(255, 255, 255, 0.82);
+      --card: rgba(255,255,255,0.85);
       --yes: #ff3b7a;
       --yesHover: #ff1f68;
-      --text: #111827;
-      --muted: rgba(17, 24, 39, 0.65);
     }
 
     * { box-sizing: border-box; }
@@ -27,13 +25,12 @@
       display: grid;
       place-items: center;
       background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, sans-serif;
       overflow: hidden;
       padding: 16px;
-      color: var(--text);
     }
 
-    /* FULL-SCREEN CONFETTI CANVAS */
+    /* Confetti canvas */
     #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -48,24 +45,14 @@
       padding: 26px 22px;
       background: var(--card);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       border-radius: 22px;
       text-align: center;
       box-shadow: 0 18px 60px rgba(0,0,0,.15);
-      border: 1px solid rgba(255,255,255,.55);
-    }
-
-    .art {
-      width: min(260px, 80vw);
-      margin: 0 auto 10px;
-      display: block;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
     }
 
     h1 {
-      font-size: clamp(24px, 4vw, 42px);
+      font-size: clamp(26px, 4vw, 42px);
       margin: 12px 0 18px;
-      letter-spacing: .2px;
     }
 
     .button-zone {
@@ -73,7 +60,6 @@
       width: min(520px, 92%);
       height: 150px;
       margin: 0 auto;
-      touch-action: none;
     }
 
     button {
@@ -87,13 +73,7 @@
       border: none;
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(0,0,0,.14);
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform .12s ease, background .12s ease, filter .12s ease;
-    }
-
-    button:active {
-      transform: translateY(-50%) scale(0.98);
+      transition: transform .12s ease, background .12s ease;
     }
 
     #yesBtn {
@@ -112,7 +92,7 @@
     .hint {
       margin-top: 10px;
       font-size: 13px;
-      color: var(--muted);
+      opacity: .7;
     }
 
     .result {
@@ -123,34 +103,19 @@
 
     .result h2 {
       font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0 14px;
+      margin: 10px 0;
     }
 
-    /* Reveal image styling */
     .reveal {
       width: min(520px, 92vw);
-      margin: 0 auto;
-      display: block;
       border-radius: 18px;
       box-shadow: 0 18px 60px rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.7);
-    }
-
-    .subnote {
       margin-top: 10px;
-      font-size: 13px;
-      color: var(--muted);
     }
 
     @keyframes pop {
       from { transform: scale(.96); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-
-    /* Accessibility: reduce motion */
-    @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; }
-      button, .result { animation: none !important; transition: none !important; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -159,68 +124,31 @@
   <canvas id="confettiCanvas"></canvas>
 
   <main class="card">
-    <!-- Cute animal with heart -->
-    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
-
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
-
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
-
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
-
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
-
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
-
     <h1>Mariam will you be my valentine?</h1>
 
-    <section class="button-zone" id="zone" aria-label="Valentine response buttons">
-      <button id="yesBtn" type="button">Yes</button>
-      <button id="noBtn" type="button">No</button>
+    <section class="button-zone" id="zone">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
     </section>
 
     <div class="hint" id="hint">“No” seems a bit shy 😈</div>
 
-    <section class="result" id="result" aria-live="polite">
+    <section class="result" id="result">
       <h2>YAY! 🎉</h2>
 
-      <!-- ✅ Replace meme/GIF with your image in the repo -->
-      <!-- Put Valentine.png in the same folder as this HTML (or adjust path) -->
+      <!-- Valentine Image -->
       <img
         class="reveal"
-        src="./valentine.png"
-        alt="A romantic Valentine image"
-        loading="eager"
+        src="./Valentine.png"
+        alt="Valentine image"
       />
-
-      <div class="subnote">Now you’re basically obligated to plan the cutest date. 😄</div>
     </section>
   </main>
+
+  <!-- Audio (plays when Yes is clicked) -->
+  <audio id="loveAudio" preload="auto">
+    <source src="./06.Ahwak.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
     const zone = document.getElementById("zone");
@@ -229,9 +157,8 @@
     const result = document.getElementById("result");
     const hint = document.getElementById("hint");
 
-    /* ---------- CONFETTI (FULL SCREEN) ---------- */
+    /* ---------- CONFETTI ---------- */
     const confettiCanvas = document.getElementById("confettiCanvas");
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function resizeConfettiCanvas() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -243,16 +170,14 @@
 
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
 
-    const confettiInstance = window.confetti
-      ? confetti.create(confettiCanvas, { resize: false, useWorker: true })
-      : null;
+    const confettiInstance = confetti.create(confettiCanvas, {
+      resize: false,
+      useWorker: true
+    });
 
     function fullScreenConfetti() {
-      if (!confettiInstance || prefersReducedMotion) return;
-
-      const end = Date.now() + 1600;
+      const end = Date.now() + 1500;
 
       (function frame() {
         confettiInstance({
@@ -267,16 +192,16 @@
 
       setTimeout(() => {
         confettiInstance({
-          particleCount: 260,
+          particleCount: 250,
           spread: 140,
           startVelocity: 60,
           ticks: 220,
           origin: { x: 0.5, y: 0.55 }
         });
-      }, 280);
+      }, 300);
     }
 
-    /* ---------- YES BUTTON GROWS (A LITTLE) ---------- */
+    /* ---------- YES BUTTON GROWS ---------- */
     let yesScale = 1;
     function growYes() {
       yesScale = Math.min(2.2, yesScale + 0.1);
@@ -299,19 +224,19 @@
       dy /= mag;
 
       let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top  - z.top)  + dy * 150;
+      let newTop  = (b.top - z.top) + dy * 150;
 
       newLeft = clamp(newLeft, 0, z.width - b.width);
-      newTop  = clamp(newTop,  0, z.height - b.height);
+      newTop  = clamp(newTop, 0, z.height - b.height);
 
       noBtn.style.left = newLeft + "px";
-      noBtn.style.top  = newTop  + "px";
+      noBtn.style.top = newTop + "px";
       noBtn.style.transform = "none";
 
       growYes();
     }
 
-    zone.addEventListener("pointermove", (e) => {
+    zone.addEventListener("pointermove", e => {
       const b = noBtn.getBoundingClientRect();
       const d = Math.hypot(
         (b.left + b.width / 2) - e.clientX,
@@ -320,22 +245,24 @@
       if (d < 140) moveNo(e.clientX, e.clientY);
     });
 
-    noBtn.addEventListener("click", (e) => e.preventDefault());
+    noBtn.addEventListener("click", e => e.preventDefault());
 
     /* ---------- YES CLICK ---------- */
     yesBtn.addEventListener("click", () => {
+      // Play music
+      const audio = document.getElementById("loveAudio");
+      if (audio) {
+        audio.currentTime = 0;
+        audio.volume = 0.8;
+        audio.loop = true;
+        audio.play().catch(() => {});
+      }
+
       zone.style.display = "none";
       hint.style.display = "none";
       result.style.display = "block";
       resizeConfettiCanvas();
       fullScreenConfetti();
-
-      // Small accessibility nicety: focus the result heading for screen readers
-      const heading = result.querySelector("h2");
-      if (heading) {
-        heading.setAttribute("tabindex", "-1");
-        heading.focus({ preventScroll: false });
-      }
     });
   </script>
 </body>
